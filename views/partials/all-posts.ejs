@@ -1,0 +1,19 @@
+<section id="all-collections">
+    <h2 class="h1 fw-700 text-center uppercase">Актуальні збори</h2>
+    <ul class="collections__grid">
+        <% posts.forEach(function(post) { %>
+            <% if (post.status == 'Verified') { %>
+                <%- include('post-card', {post: post}) %>
+            <% } %>
+        <% }); %>
+    </ul>
+
+    <h2 class="h1 fw-700 text-center uppercase closed__posts-heading">Закриті збори</h2>
+    <ul class="collections__grid">
+        <% posts.forEach(function(post) { %>
+            <% if (post.status == 'Closed') { %>
+                <%- include('post-card', {post: post}) %>
+            <% } %>
+        <% }); %>
+    </ul>
+</section>

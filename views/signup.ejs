@@ -1,0 +1,32 @@
+<%- include('partials/header', { title: 'Sign up'}) %>
+
+<div class="page-width signin__form-wrapper">
+    <h1 class="h1 text-center fw-600">Sign Up</h1>
+    <form action="/signup" method="post" class="signin__form">
+        <div class="form__row">
+            <label for="">Ім'я</label>
+            <input type="text" name="name" placeholder="Name" required><br>
+        </div>
+
+        <div class="form__row">
+            <label for="">Прізвище</label>
+            <input type="text" name="surname" placeholder="Surname" required><br>
+        </div>
+
+        <div class="form__row">
+            <label for="">Е-мейл</label>
+            <input type="email" name="email" placeholder="Email" required><br>
+        </div>
+
+        <div class="form__row">
+            <label for="">Пароль</label>
+            <input type="password" name="password" placeholder="Password" required><br>
+        </div>
+        
+        
+        <button class="btn bg-blue color-white text-center" type="submit">Sign Up</button>
+        <a href="/signin" class="create__account-btn color-blue fw-600 uppercase">Вже є аккаунт?</a>
+    </form>
+</div>
+
+<%- include('partials/footer') %>

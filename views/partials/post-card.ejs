@@ -1,0 +1,88 @@
+<li class="collections__grid-item">
+    <div class="post__header">
+        <div class="post__date"><%= post.creationDate.toISOString().split('T')[0].replaceAll('-', '.') %></div>
+        <div class="post__status">
+            <% if (post.status == 'Verified') { %>
+                🟢
+            <% } else if (post.status == 'Closed') { %>
+                🔵
+            <% } else { %>
+                🟡
+            <% } %>  
+            
+            <%= post.status %>
+        </div>
+    </div>
+    <div class="post__body">
+        <p class="post__title fw-600">
+            <%= post.name %>
+        </p>
+
+        <% if (post.moneyCollected > 0) { %>
+            <div class="border-radius__container">
+                <progress max="<%= post.moneyNeeded %>" value="<%= post.moneyCollected %>"></progress>
+            </div>
+            
+        <% } %>  
+        <div class="post__row post__amount">
+            <p>Портібна сума:</p>
+            <p class="fw-600 uppercase"><%= post.moneyNeeded %> ₴</p>
+        </div>
+
+        <% if (post.moneyCollected > 0) { %>
+            <div class="post__row post__amount">
+                <p>Зібрана сума:</p>
+                <p class="fw-600 uppercase"><%= post.moneyCollected %> ₴</p>
+            </div>
+        <% } %>
+        
+        <% if (post.category) { %>
+            <div class="post__row post__amount">
+                <p>Категорія:</p>
+                <p class="fw-600 uppercase"><%= post.category %></p>
+            </div>
+        <% } %>
+
+        <% if (post.promoted == true) { %>
+            <div class="post__row post__promoted">
+                <p>Маркетинг:</p>
+                <p class="fw-600 uppercase">Так</p>
+            </div>
+        <% } %>
+       
+        <% if (post.predictedDeadline) { %>
+            <div class="post__row">
+                <p>Прогнозована дата завершення:</p>
+                <p class="fw-600 uppercase"><%= post.predictedDeadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+            </div>
+        <% } %>
+
+        <div class="post__row post__deadline">
+            <p>Дедлайн:</p>
+            <p class="fw-600 uppercase"><%= post.deadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+        </div>
+
+    </div>
+
+    <div class="post__footer">
+        <div class="post__payments">
+            <p class="make__payment text-center fw-600">Платіжні дані:</p>
+            <div class="payment__method monobank">
+                <img src="/img/monobank-icon.svg" alt="monobank icon" width="20">
+                <a href="/" class="color-black payment__method-label"><%= post.monobankUrl %></a>
+                <div class="jar__amounts">
+                    <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate50&a=50" class="jar__amount">❤️ 150₴</a>
+                    <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate200&a=200" class="jar__amount">❤️ 200₴</a>
+                    <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate1000&a=1000" class="jar__amount">❤️ 500₴</a>
+                </div>
+            </div>
+            <div class="payment__method privat">
+                <img src="/img/privat-icon.svg" alt="monobank icon" width="20">
+                <a href="/" class="color-black payment__method-label"><%= post.privatUrl %></a>
+            </div>
+        </div>
+    </div>
+
+    <a class="post__link btn uppercase fw-600 color-black bg-yellow" href="/post/<%= post._id %>">Деталі</a>
+ 
+</li>

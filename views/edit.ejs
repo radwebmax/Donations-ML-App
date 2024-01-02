@@ -1,0 +1,67 @@
+<!-- edit.ejs -->
+<%- include('partials/header', { title: "Edit Post"}) %>
+
+<section class="edit__post-wrapper">
+    <div class="page-width">
+        <h1 class="h1 text-center fw-600">Внести зміни у збір</h1>
+        <form action="/update/<%= post._id %>" method="post" id="postCreationform">
+        
+            <div class="form__row">
+                <label for="name">Назва Збору</label> 
+                <input type="text" name="name" placeholder="Post Name" required value="<%= post.name %>">
+            </div>
+        
+            <div class="form__row">
+                <label for="description">Опис</label> 
+                <textarea name="description" placeholder="Description" required><%= post.description %></textarea>
+            </div>
+        
+            <div class="form__row">
+                <label for="category">Категорія Збору</label>
+                <select name="category" required>
+                    <option value="Military" <% if(post.category === 'Military') { %>selected<% } %>>Військовий</option>
+                    <option value="Humanitarian" <% if(post.category === 'Humanitarian') { %>selected<% } %>>Гуманітарний</option>
+                    <option value="Medicine" <% if(post.category === 'Medicine') { %>selected<% } %>>Медичний</option>
+                    <option value="Other" <% if(post.category === 'Other') { %>selected<% } %>>Інше</option>
+                </select>
+            </div>
+        
+            <div class="form__row">
+                <label for="moneyNeeded">Потрібна сума</label> 
+                <input type="number" name="moneyNeeded" placeholder="Money Needed" required value="<%= post.moneyNeeded %>">
+            </div>
+        
+            <div class="form__row form__row_stacked">
+                <input type="checkbox" name="promoted" value="true" <% if(post.promoted) { %> checked <% } %>>
+                <label for="promoted">Чи буде просуватись у соц мережах ?</label> 
+            </div>
+
+            <div class="form__row">
+                <label for="coverage">Прогнозоване охоплення</label> 
+                <input type="number" name="coverage" placeholder="0-10000000" value="<%= post.coverage %>">
+            </div>
+        
+            <div class="form__row">
+                <label for="deadline">Дедлайн</label> 
+                <input type="date" name="deadline" placeholder="Deadline" required value="<%= post.deadline.toISOString().split('T')[0] %>">
+            </div>
+        
+            <div class="form__row">
+                <label for="monobankUrl">Посилання на Monobank-у</label> 
+                <input type="text" name="monobankUrl" placeholder="Monobank URL" value="<%= post.monobankUrl %>">
+            </div>
+        
+            <div class="form__row">
+                <label for="privatUrl">Інші платіжні дані</label> 
+                <input type="text" name="privatUrl" placeholder="PrivatBank URL" value="<%= post.privatUrl %>">
+            </div>
+        
+            <button type="submit" class="btn bg-blue color-white form-submit">Оновити збір</button>
+        </form>
+        
+    </div>
+</section>
+
+
+
+<%- include('partials/footer') %>

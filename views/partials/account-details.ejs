@@ -1,0 +1,22 @@
+<section class="user__details-wrapper">
+    <h1 class="h1 text-center">Деталі Аккаунту</h1>
+    <div class="user__details">
+
+        <div class="user__info">
+            <p>Ім'я : <%= user.name %></p>
+            <p>Прізвище: <%= user.surname %></p>
+        </div>
+
+        <div class="account__links">
+            <% if (user.role == 'admin' && title != 'Admin Dashboard' ) { %>
+                <a href="/admin" class="btn bg-blue color-white">Адмін Панель</a>
+    
+            <% } %>  
+    
+            <form action="/logout" method="post" class="loggout__form">
+                <button type="submit" class="account-loggout__btn btn">Вийти з аккаунту</button>
+            </form>
+        </div>
+
+    </div>
+</section>

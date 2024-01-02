@@ -1,0 +1,373 @@
+<!-- views/admin.ejs -->
+<%- include('partials/header', { title: 'Admin Dashboard' }) %>
+
+<main class="page-width">
+    <%- include('partials/account-details', { title: 'Admin Dashboard' }) %>
+
+    <section class="admin__all-posts">
+        <h1 class="h1 text-center">Очікують верифікації</h1>
+        <ul class="collections__grid">
+            <% posts.forEach(function(post) { %>
+                <% if (post.status == 'Pending') { %>
+                    <li class="collections__grid-item">
+                        <div class="post__control">
+                            <form action="/delete/<%= post._id %>" method="post">
+                                <button type="submit" class="btn_no-styles delete-post__btn">
+                                    <img src="/img/close-icon.svg" alt="edit icon" width="24px">
+                                    Видалити
+                                </button>
+                            </form>
+                            <a class="edit__post" href="/edit/<%= post._id %>">
+                                <img src="/img/edit-icon.svg" alt="edit icon" width="24px">
+                                Редагувати
+                            </a>
+                        </div>
+                        
+                        <div class="post__header">
+                            <div class="post__date"><%= post.creationDate.toISOString().split('T')[0].replaceAll('-', '.') %></div>
+                            <div class="post__status">
+            
+                                <% if (post.status == 'Verified') { %>
+                                    🟢
+                                <% } else if (post.status == 'Closed') { %>
+                                    🔵
+                                <% } else { %>
+                                    🟡
+                                <% } %>  
+                                <form action="/updateStatus/<%= post._id %>" method="post" class="editPostStatusform">
+                                    <select name="status">
+                                        <option value="Pending" <%= post.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                        <option value="Verified" <%= post.status === 'Verified' ? 'selected' : '' %>>Verified</option>
+                                        <option value="Closed" <%= post.status === 'Closed' ? 'selected' : '' %>>Closed</option>
+                                    </select>
+                                    <!-- <button type="submit">Оновити статус</button> -->
+                                </form>
+                            </div>
+                        </div>
+                        <div class="post__body">
+                            <p class="post__title fw-600">
+                                <%= post.name %>
+                            </p>
+                    
+                            <% if (post.moneyCollected > 0) { %>
+                                <div class="border-radius__container">
+                                    <progress max="<%= post.moneyNeeded %>" value="<%= post.moneyCollected %>"></progress>
+                                </div>
+                                
+                            <% } %>  
+                            <div class="post__row post__amount">
+                                <p>Портібна сума:</p>
+                                <p class="fw-600 uppercase"><%= post.moneyNeeded %> ₴</p>
+                            </div>
+                    
+                            <% if (post.moneyCollected > 0) { %>
+                                <div class="post__row post__amount">
+                                    <p>Зібрана сума:</p>
+                                    <p class="fw-600 uppercase"><%= post.moneyCollected %> ₴</p>
+                                </div>
+                            <% } %>
+                            
+                            <% if (post.category) { %>
+                                <div class="post__row post__amount">
+                                    <p>Категорія:</p>
+                                    <p class="fw-600 uppercase"><%= post.category %></p>
+                                </div>
+                            <% } %>
+                    
+                            <% if (post.promoted == true) { %>
+                                <div class="post__row post__promoted">
+                                    <p>Маркетинг:</p>
+                                    <p class="fw-600 uppercase">Так</p>
+                                </div>
+                            <% } %>
+                        
+                            <% if (post.predictedDeadline) { %>
+                                <div class="post__row">
+                                    <p>Прогнозована дата завершення:</p>
+                                    <p class="fw-600 uppercase"><%= post.predictedDeadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+                                </div>
+                            <% } %>
+                            
+                            <div class="post__row post__deadline">
+                                <p>Дедлайн:</p>
+                                <p class="fw-600 uppercase"><%= post.deadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+                            </div>
+                    
+                        
+                        </div>
+        
+                        <div class="post__footer">
+                            <div class="post__payments">
+                                <p class="make__payment text-center fw-600">Платіжні дані:</p>
+                                <div class="payment__method monobank">
+                                    <img src="/img/monobank-icon.svg" alt="monobank icon" width="20">
+                                    <a href="/" class="color-black payment__method-label"><%= post.monobankUrl %></a>
+                                    <div class="jar__amounts">
+                                        <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate50&a=50" class="jar__amount">❤️ 150₴</a>
+                                        <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate200&a=200" class="jar__amount">❤️ 200₴</a>
+                                        <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate1000&a=1000" class="jar__amount">❤️ 500₴</a>
+                                    </div>
+                                </div>
+                                <div class="payment__method privat">
+                                    <img src="/img/privat-icon.svg" alt="monobank icon" width="20">
+                                    <a href="/" class="color-black payment__method-label"><%= post.privatUrl %></a>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <a class="post__link btn uppercase fw-600 color-black bg-yellow" href="/post/<%= post._id %>">Деталі</a>
+                    
+                    </li>
+                <% } %>  
+            <% }); %>
+        </ul>
+
+        <h2 class="h1 text-center collections__grid_mt">Активні збори</h2>
+        <ul class="collections__grid">
+            <% posts.forEach(function(post) { %>
+                <% if (post.status == 'Verified') { %>
+                    <li class="collections__grid-item">
+                        <div class="post__control">
+                            <form action="/delete/<%= post._id %>" method="post">
+                                <button type="submit" class="btn_no-styles delete-post__btn">
+                                    <img src="/img/close-icon.svg" alt="edit icon" width="24px">
+                                    Видалити
+                                </button>
+                            </form>
+                            <a class="edit__post" href="/edit/<%= post._id %>">
+                                <img src="/img/edit-icon.svg" alt="edit icon" width="24px">
+                                Редагувати
+                            </a>
+                        </div>
+                        
+                        <div class="post__header">
+                            <div class="post__date"><%= post.creationDate.toISOString().split('T')[0].replaceAll('-', '.') %></div>
+                            <div class="post__status">
+            
+                                <% if (post.status == 'Verified') { %>
+                                    🟢
+                                <% } else if (post.status == 'Closed') { %>
+                                    🔵
+                                <% } else { %>
+                                    🟡
+                                <% } %>  
+                                <form action="/updateStatus/<%= post._id %>" method="post" class="editPostStatusform">
+                                    <select name="status">
+                                        <option value="Pending" <%= post.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                        <option value="Verified" <%= post.status === 'Verified' ? 'selected' : '' %>>Verified</option>
+                                        <option value="Closed" <%= post.status === 'Closed' ? 'selected' : '' %>>Closed</option>
+                                    </select>
+                                    <!-- <button type="submit">Оновити статус</button> -->
+                                </form>
+                            </div>
+                        </div>
+                        <div class="post__body">
+                            <p class="post__title fw-600">
+                                <%= post.name %>
+                            </p>
+                    
+                            <% if (post.moneyCollected > 0) { %>
+                                <div class="border-radius__container">
+                                    <progress max="<%= post.moneyNeeded %>" value="<%= post.moneyCollected %>"></progress>
+                                </div>
+                                
+                            <% } %>  
+                            <div class="post__row post__amount">
+                                <p>Портібна сума:</p>
+                                <p class="fw-600 uppercase"><%= post.moneyNeeded %> ₴</p>
+                            </div>
+                    
+                            <% if (post.moneyCollected > 0) { %>
+                                <div class="post__row post__amount">
+                                    <p>Зібрана сума:</p>
+                                    <p class="fw-600 uppercase"><%= post.moneyCollected %> ₴</p>
+                                </div>
+                            <% } %>
+                            
+                            <% if (post.category) { %>
+                                <div class="post__row post__amount">
+                                    <p>Категорія:</p>
+                                    <p class="fw-600 uppercase"><%= post.category %></p>
+                                </div>
+                            <% } %>
+                    
+                            <% if (post.promoted == true) { %>
+                                <div class="post__row post__promoted">
+                                    <p>Маркетинг:</p>
+                                    <p class="fw-600 uppercase">Так</p>
+                                </div>
+                            <% } %>
+                        
+                            <% if (post.predictedDeadline) { %>
+                                <div class="post__row">
+                                    <p>Прогнозована дата завершення:</p>
+                                    <p class="fw-600 uppercase"><%= post.predictedDeadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+                                </div>
+                            <% } %>
+                            
+                            <div class="post__row post__deadline">
+                                <p>Дедлайн:</p>
+                                <p class="fw-600 uppercase"><%= post.deadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+                            </div>
+                    
+                        
+                        </div>
+        
+                        <div class="post__footer">
+                            <div class="post__payments">
+                                <p class="make__payment text-center fw-600">Платіжні дані:</p>
+                                <div class="payment__method monobank">
+                                    <img src="/img/monobank-icon.svg" alt="monobank icon" width="20">
+                                    <a href="/" class="color-black payment__method-label"><%= post.monobankUrl %></a>
+                                    <div class="jar__amounts">
+                                        <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate50&a=50" class="jar__amount">❤️ 150₴</a>
+                                        <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate200&a=200" class="jar__amount">❤️ 200₴</a>
+                                        <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate1000&a=1000" class="jar__amount">❤️ 500₴</a>
+                                    </div>
+                                </div>
+                                <div class="payment__method privat">
+                                    <img src="/img/privat-icon.svg" alt="monobank icon" width="20">
+                                    <a href="/" class="color-black payment__method-label"><%= post.privatUrl %></a>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <a class="post__link btn uppercase fw-600 color-black bg-yellow" href="/post/<%= post._id %>">Деталі</a>
+                    
+                    </li>
+                <% } %>  
+            <% }); %>
+        </ul>
+
+        <h2 class="h1 text-center collections__grid_mt">Архів</h2>
+        <ul class="collections__grid">
+            <% posts.forEach(function(post) { %>
+                <% if (post.status == 'Closed') { %>
+                    <li class="collections__grid-item">
+                        <div class="post__control">
+                            <form action="/delete/<%= post._id %>" method="post">
+                                <button type="submit" class="btn_no-styles delete-post__btn">
+                                    <img src="/img/close-icon.svg" alt="edit icon" width="24px">
+                                    Видалити
+                                </button>
+                            </form>
+                            <a class="edit__post" href="/edit/<%= post._id %>">
+                                <img src="/img/edit-icon.svg" alt="edit icon" width="24px">
+                                Редагувати
+                            </a>
+                        </div>
+                        
+                        <div class="post__header">
+                            <div class="post__date"><%= post.creationDate.toISOString().split('T')[0].replaceAll('-', '.') %></div>
+                            <div class="post__status">
+            
+                                <% if (post.status == 'Verified') { %>
+                                    🟢
+                                <% } else if (post.status == 'Closed') { %>
+                                    🔵
+                                <% } else { %>
+                                    🟡
+                                <% } %>  
+                                <form action="/updateStatus/<%= post._id %>" method="post" class="editPostStatusform">
+                                    <select name="status">
+                                        <option value="Pending" <%= post.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                        <option value="Verified" <%= post.status === 'Verified' ? 'selected' : '' %>>Verified</option>
+                                        <option value="Closed" <%= post.status === 'Closed' ? 'selected' : '' %>>Closed</option>
+                                    </select>
+                                    <!-- <button type="submit">Оновити статус</button> -->
+                                </form>
+                            </div>
+                        </div>
+                        <div class="post__body">
+                            <p class="post__title fw-600">
+                                <%= post.name %>
+                            </p>
+                    
+                            <% if (post.moneyCollected > 0) { %>
+                                <div class="border-radius__container">
+                                    <progress max="<%= post.moneyNeeded %>" value="<%= post.moneyCollected %>"></progress>
+                                </div>
+                                
+                            <% } %>  
+                            <div class="post__row post__amount">
+                                <p>Портібна сума:</p>
+                                <p class="fw-600 uppercase"><%= post.moneyNeeded %> ₴</p>
+                            </div>
+                    
+                            <% if (post.moneyCollected > 0) { %>
+                                <div class="post__row post__amount">
+                                    <p>Зібрана сума:</p>
+                                    <p class="fw-600 uppercase"><%= post.moneyCollected %> ₴</p>
+                                </div>
+                            <% } %>
+                            
+                            <% if (post.category) { %>
+                                <div class="post__row post__amount">
+                                    <p>Категорія:</p>
+                                    <p class="fw-600 uppercase"><%= post.category %></p>
+                                </div>
+                            <% } %>
+                    
+                            <% if (post.promoted == true) { %>
+                                <div class="post__row post__promoted">
+                                    <p>Маркетинг:</p>
+                                    <p class="fw-600 uppercase">Так</p>
+                                </div>
+                            <% } %>
+                        
+                            <% if (post.predictedDeadline) { %>
+                                <div class="post__row">
+                                    <p>Прогнозована дата завершення:</p>
+                                    <p class="fw-600 uppercase"><%= post.predictedDeadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+                                </div>
+                            <% } %>
+                            
+                            <div class="post__row post__deadline">
+                                <p>Дедлайн:</p>
+                                <p class="fw-600 uppercase"><%= post.deadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+                            </div>
+                    
+                        
+                        </div>
+        
+                        <div class="post__footer">
+                            <div class="post__payments">
+                                <p class="make__payment text-center fw-600">Платіжні дані:</p>
+                                <div class="payment__method monobank">
+                                    <img src="/img/monobank-icon.svg" alt="monobank icon" width="20">
+                                    <a href="/" class="color-black payment__method-label"><%= post.monobankUrl %></a>
+                                    <div class="jar__amounts">
+                                        <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate50&a=50" class="jar__amount">❤️ 150₴</a>
+                                        <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate200&a=200" class="jar__amount">❤️ 200₴</a>
+                                        <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate1000&a=1000" class="jar__amount">❤️ 500₴</a>
+                                    </div>
+                                </div>
+                                <div class="payment__method privat">
+                                    <img src="/img/privat-icon.svg" alt="monobank icon" width="20">
+                                    <a href="/" class="color-black payment__method-label"><%= post.privatUrl %></a>
+                                </div>
+                            </div>
+                        </div>
+        
+                        <a class="post__link btn uppercase fw-600 color-black bg-yellow" href="/post/<%= post._id %>">Деталі</a>
+                    
+                    </li>
+                <% } %>  
+            <% }); %>
+        </ul>
+
+    </section>
+</main>
+
+<%- include('partials/footer') %>
+
+<script>
+    let statusSelect = document.querySelectorAll('.editPostStatusform select');
+
+    const ajaxEditStatus = event => {
+        let form = event.target.closest('form');
+        form.submit();
+    }
+
+    statusSelect.forEach(el => el.addEventListener('input', ajaxEditStatus));
+</script>

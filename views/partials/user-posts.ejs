@@ -1,0 +1,8 @@
+<section class="user__posts-wrapper">
+    <h2 class="h1 text-center">Опубліковані збори</h2>
+    <ul class="collections__grid">
+        <% posts.forEach(function(post) { %>
+            <%- include('post-card-with-edit', {post: post}) %>
+        <% }); %>
+    </ul>
+</section>

@@ -1,0 +1,74 @@
+<section class="create-post__wrapper">
+    <h2 class="h1 text-center">Створити збір 🔵🟡</h2>
+
+    <form action="/createPost" method="post" id="postCreationform">
+        <input type="hidden" name="userId" value="<%= user._id %>">
+    
+        <div class="form__row">
+            <label for="name">Назва Збору</label> 
+            <input type="text" name="name" placeholder="Post Name" required>
+        </div>
+    
+        <div class="form__row">
+            <label for="description">Опис</label> 
+            <textarea name="description" placeholder="Description" required></textarea>
+        </div>
+
+        <div class="form__row">
+            <label for="category">Категорія Збору</label>
+            <select name="category" required>
+                <option value="Military">Військовий</option>
+                <option value="Humanitarian">Гуманітарний</option>
+                <option value="Medicine">Медичний</option>
+                <option value="Other">Інше</option>
+            </select>
+        </div>
+    
+        <div class="form__row">
+            <label for="moneyNeeded">Потрібна сума</label> 
+            <input type="number" name="moneyNeeded" placeholder="Money Needed" required>
+        </div>
+    
+        <div class="form__row form__row_stacked">
+            <input type="checkbox" name="promoted" value="true">
+            <label for="promoted">Чи буде просуватись у соц мережах ?</label> 
+        </div>
+       
+        <div class="form__row">
+            <label for="coverage">Прогнозоване охоплення</label> 
+            <input type="number" name="coverage" placeholder="0-10000000">
+        </div>
+
+        <div class="form__row">
+            <label for="deadline">Дедлайн</label> 
+            <input type="date" name="deadline" placeholder="Deadline" required>
+        </div>
+
+        <div class="prediction__wrapper">
+            <div id="predictDate">Зпрогнозувати дату закриття</div>
+            <div class="form__row hidden predicted__date-row">
+                <label for="predictedDeadline">Ймовірна дата закриття:</label> 
+                <input type="date" name="predictedDeadline" placeholder="predictedDeadline">
+            </div>
+            <div id="prediction-result"></div>
+        </div>
+       
+
+        <div class="form__row">
+            <label for="monobankUrl">Посилання на Monobank-у</label> 
+            <input type="text" name="monobankUrl" placeholder="Monobank URL">
+        </div>
+    
+        <div class="form__row">
+            <label for="privatUrl">Інші платіжні дані</label> 
+            <input type="text" name="privatUrl" placeholder="PrivatBank URL">
+        </div>
+      
+        <button type="submit" class="btn bg-blue color-white form-submit">Створити збір</button>
+    
+    </form>
+    
+    <div id="prediction-result"></div>
+
+    <script src="/js/script.js"></script>
+</section>

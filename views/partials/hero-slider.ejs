@@ -1,0 +1,59 @@
+<section class="hero-banner__wrapper">
+    <div class="swiper hero-banner__swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide hero-banner__slide">
+                <img src="/img/hero-banner-1.jpg" alt="Hero banner 1">
+                <div class="hero-banner__info page-width">
+                    <h2 class="color-white fw-700">Платформа для допомоги ЗСУ та збору коштів</h2>
+                    <p class="color-white">Тут ви можете залишити свою заявку про необхідний збір для наших воїнів!</p>
+                    <a href="/account" class="btn btn__primary bg-yellow color-blue uppercase hero-banner__cta">
+                        Створити зараз
+                    </a>
+                </div>
+            </div>
+
+            <div class="swiper-slide hero-banner__slide">
+                <img src="/img/hero-banner-1.jpg" alt="Hero banner 1">
+                <div class="hero-banner__info page-width">
+                    <h2 class="color-white fw-700">Платформа для допомоги ЗСУ та збору коштів</h2>
+                    <p class="color-white">Тут ви можете залишити свою заявку про необхідний збір для наших воїнів!</p>
+                    <a href="/account" class="btn btn__primary bg-yellow color-blue uppercase hero-banner__cta">
+                        Створити зараз
+                    </a>
+                </div>
+            </div>
+
+            <div class="swiper-slide hero-banner__slide">
+                <img src="/img/hero-banner-1.jpg" alt="Hero banner 1">
+                <div class="hero-banner__info page-width">
+                    <h2 class="color-white fw-700">Платформа для допомоги ЗСУ та збору коштів</h2>
+                    <p class="color-white">Тут ви можете залишити свою заявку про необхідний збір для наших воїнів!</p>
+                    <a href="/account" class="btn btn__primary bg-yellow color-blue uppercase hero-banner__cta">
+                        Створити зараз
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <!-- <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div> -->
+
+    </div>
+</section>
+
+<script>
+const heroSwiper = new Swiper('.hero-banner__swiper', {
+    loop: true,
+    autoplay: {
+        delay: 5000,
+    },
+    pagination: {
+        el: '.hero-banner__swiper .swiper-pagination',
+    },
+    spaceBetween: 10
+    // navigation: {
+    //     nextEl: '.hero-banner__swiper .swiper-button-next',
+    //     prevEl: '.hero-banner__swiper .swiper-button-prev',
+    // }
+});
+</script>

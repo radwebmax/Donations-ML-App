@@ -1,0 +1,84 @@
+<!-- views/postDetail.ejs -->
+<%- include('partials/header', { title: 'Post Detail' }) %>
+
+<main class="page-width">
+    <section class="post__overview-wrapper" >
+        <h1 class="h1 text-center fw-700"><%= post.name %></h1>
+        <div class="post__overview">
+            <div class="post__overview-info">
+                <img src="/img/hero-banner-1.jpg" alt="<%= post.name %>">
+                <p class="">
+                    <span class="fw-600">Опис:</span><br>
+                    <%= post.description %>
+                </p>
+            </div>
+            <div class="payment__details-payments">
+                <p class="fw-600 info__label">
+                    Деталі збору
+                    <span class="post__status">
+                        🟢 <%= post.status %>
+                    </span>
+                </p>
+
+                <% if (post.moneyCollected > 0) { %>
+                    <div class="progress__bar">
+                        <div class="progress__bar-money">
+                           <%= post.moneyCollected %> /  <%= post.moneyNeeded %> ₴
+                        </div>
+                        <div class="border-radius__container">
+                            <progress max="<%= post.moneyNeeded %>" value="<%= post.moneyCollected %>"></progress>
+                        </div>
+                    </div>
+                <% } %>  
+
+                <div class="post__deadline">
+                    <p>Дата завершення:</p>
+                    <p><%= post.deadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+                </div>
+                <% if (post.predictedDeadline) { %>
+                    <div class="post__deadline">
+                        <p>Прогнозована дата завершення:</p>
+                        <p><%= post.predictedDeadline.toISOString().split('T')[0].replaceAll('-', '.') %></p>
+                    </div>
+                <% } %>
+
+                <div class="post__deadline">
+                    <p>Організатор:</p>
+                    <p>Сидоренко Михайло</p>
+                </div>
+
+                <div class="post__deadline">
+                    <p>Контакти:</p>
+                    <p>+ 380 50 555 55 55</p>
+                </div>
+
+                <div class="post__payments">
+                    <p class="make__payment fw-600">Платіжні дані:</p>
+                    <div class="payment__method monobank">
+                        <img src="/img/monobank-icon.svg" alt="monobank icon" width="20">
+                        <a href="/" class="color-black payment__method-label"><%= post.monobankUrl %></a>
+                        <div class="jar__amounts">
+                            <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate50&a=50" class="jar__amount">❤️ 150₴</a>
+                            <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate200&a=200" class="jar__amount">❤️ 200₴</a>
+                            <a href="https://send.monobank.ua/jar/4yiMoDeMAs?=donate1000&a=1000" class="jar__amount">❤️ 500₴</a>
+                        </div>
+                    </div>
+                    <div class="payment__method privat">
+                        <img src="/img/privat-icon.svg" alt="monobank icon" width="20">
+                        <a href="/" class="color-black payment__method-label"><%= post.privatUrl %></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <h1><%= post.title %></h1>
+        <p>Month: <%= post.month %></p>
+        <p>Money Needed: <%= post.moneyNeeded %></p>
+        <p>Promoted: <%= post.promoted ? 'Yes' : 'No' %></p>
+        <p>Deadline: <%= post.deadline.toISOString().split('T')[0] %></p>
+        <p>Status: <%= post.isOpen ? 'Open' : 'Closed' %></p> -->
+        <!-- Add more post details as needed -->
+    </section>
+    
+</main>
+
+<%- include('partials/footer') %>
